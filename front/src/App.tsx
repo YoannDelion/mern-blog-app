@@ -1,11 +1,37 @@
-import Typography from '@material-ui/core/Typography'
+import TopBar from './components/TopBar/TopBar'
+import Home from './pages/Home/Home'
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom"
+import Register from './pages/Register/Register'
+import Login from './pages/Login/Login'
+import Single from './pages/Single/Single'
+import Write from './pages/Write/Write'
+import Settings from './pages/Settings/Settings'
+
 
 export default function App() {
+  const currentUser = true
   return (
-    <div className="App">
-      <Typography variant="h1" component="h2" gutterBottom>
-        h1. Heading
-      </Typography>
-    </div>
+    <Router>
+      <TopBar />
+      <Switch>
+        <Route exact path="/">
+          <Home />
+        </Route>
+        <Route path="/posts">
+          <Home />
+        </Route>
+        <Route path="/register">
+          {currentUser ? <Home /> : <Register />}
+        </Route>
+        <Route path="/login">{currentUser ? <Home /> : <Login />}</Route>
+        <Route path="/post/:id">
+          <Single />
+        </Route>
+        <Route path="/write">{currentUser ? <Write /> : <Login />}</Route>
+        <Route path="/settings">
+          {currentUser ? <Settings /> : <Login />}
+        </Route>
+      </Switch>
+    </Router>
   )
 }
