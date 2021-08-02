@@ -1,41 +1,43 @@
 import { Link } from 'react-router-dom'
+import PostType from '../../types/post'
 import './post.css'
 
-export default function Post({ img }: PropsTypes) {
+export default function Post({ post }: PropsTypes) {
+
+  const imgFolder = 'http://localhost:5000/images/'
+
   return (
     <div className="post">
-      <img
-        className="postImg"
-        src={img}
-        alt=""
-      />
+      {post.picture && (
+        <img
+          className="postImg"
+          src={imgFolder + post.picture}
+          alt={post.title}
+        />
+      )}
       <div className="postInfo">
         <div className="postCats">
-          <span className="postCat">
-            Music
-          </span>
-          <span className="postCat">
-            Life
-          </span>
+          {post.categories?.map(cat => (
+            <span className="postCat">
+              {cat.name}
+            </span>
+          ))}
         </div>
         <span className="postTitle">
-          <Link className='link' to='/post/blabla'>
-            Lorem ipsum dolor sit amet
+          <Link className='link' to={`/post/${post._id}`}>
+            {post.title}
           </Link>
         </span>
         <hr />
-        <span className="postDate">1 hour ago</span>
+        <span className="postDate">{new Date(post.createdAt!).toDateString()}</span>
       </div>
       <p className="postDesc">
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda
-        officia architecto deserunt deleniti? Labore ipsum aspernatur magnam
-        fugiat, reprehenderit praesentium blanditiis quos cupiditate ratione
-        atque, exercitationem quibusdam, reiciendis odio laboriosam?
+        {post.content}
       </p>
     </div>
   )
 }
 
 type PropsTypes = {
-  img: string
+  post: PostType
 }

@@ -6,10 +6,15 @@ import Login from './pages/Login/Login'
 import Single from './pages/Single/Single'
 import Write from './pages/Write/Write'
 import Settings from './pages/Settings/Settings'
+import { useContext } from 'react'
+import { Context } from './context/Context'
 
 
 export default function App() {
-  const currentUser = true
+
+
+  const { state: { user } } = useContext(Context)
+
   return (
     <Router>
       <TopBar />
@@ -21,15 +26,15 @@ export default function App() {
           <Home />
         </Route>
         <Route path="/register">
-          {currentUser ? <Home /> : <Register />}
+          {user ? <Home /> : <Register />}
         </Route>
-        <Route path="/login">{currentUser ? <Home /> : <Login />}</Route>
+        <Route path="/login">{user ? <Home /> : <Login />}</Route>
         <Route path="/post/:id">
           <Single />
         </Route>
-        <Route path="/write">{currentUser ? <Write /> : <Login />}</Route>
+        <Route path="/write">{user ? <Write /> : <Login />}</Route>
         <Route path="/settings">
-          {currentUser ? <Settings /> : <Login />}
+          {user ? <Settings /> : <Login />}
         </Route>
       </Switch>
     </Router>
