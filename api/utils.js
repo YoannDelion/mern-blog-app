@@ -1,5 +1,13 @@
 const jwt = require('jsonwebtoken')
 
+const generateAccessToken = user => (
+  jwt.sign({ _id: user._id, username: user.username }, 'notSoSecretKey', { expiresIn: '15m' })
+)
+
+const generateRefreshToken = user => (
+  jwt.sign({ _id: user._id, username: user.username }, 'refreshSecretKey', { expiresIn: '24h' })
+)
+
 const verify = (req, res, next) => {
   const authHeader = req.headers.authorization
   if (authHeader) {
@@ -18,4 +26,8 @@ const verify = (req, res, next) => {
   }
 }
 
-module.exports = { verify }
+module.exports = {
+  verify,
+  generateAccessToken,
+  generateRefreshToken
+}

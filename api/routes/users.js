@@ -6,7 +6,7 @@ const { verify } = require('../utils')
 
 // Update
 router.put('/:id', verify, async (req, res) => {
-  if (req.user.id === req.params.id) {
+  if (req.user._id === req.params.id) {
     if (req.body.password) {
       const salt = await bcrypt.genSalt(10)
       req.body.password = await bcrypt.hash(req.body.password, salt)
@@ -29,7 +29,7 @@ router.put('/:id', verify, async (req, res) => {
 
 // Delete
 router.delete('/:id', verify, async (req, res) => {
-  if (req.user.id === req.params.id) {
+  if (req.user._id === req.params.id) {
     try {
       const user = await User.findById(req.params.id)
       if (!user) {

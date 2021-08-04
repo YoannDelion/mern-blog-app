@@ -2,6 +2,7 @@ const router = require('express').Router()
 const User = require('../models/User')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
+const { generateAccessToken, generateRefreshToken } = require('../utils')
 
 // Register
 router.post('/register', async (req, res) => {
@@ -34,13 +35,36 @@ router.post('/login', async (req, res) => {
 
     const { password, ...others } = user._doc
 
-    // Generate access token 
-    const accessToken = jwt.sign({ id: user._id, username: user.username }, 'notSoSecretKey')
+    // Generate access tokens
+    const accessToken = generateAccessToken(user)
+    const refreshToken = generateRefreshToken(user)
 
-    res.status(200).json({ ...others, accessToken })
+    res.status(200).json({ ...others, accessToken, refreshToken })
   } catch (error) {
     res.status(500).json(error)
   }
+})
+
+router.post('/refresh', (req, res) => {
+  const refreshToken = req.body.token
+
+  if (!refreshToken) {
+    res.status(401).json('You are not authenticated')
+  }
+  jwt.verify(refreshToken, 'refreshSecretKey', (err, user) => {
+    if (err) {
+      res.status(403).json('Invalid refresh token!')
+    }
+
+    const newAccessToken = generateAccessToken(user)
+    const newRefreshToken = generateRefreshToken(user)
+
+    res.status(200).json({
+      accessToken: newAccessToken,
+      refreshToken: newRefreshToken
+    })
+  })
+
 })
 
 module.exports = router
