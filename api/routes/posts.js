@@ -1,4 +1,5 @@
 const router = require('express').Router()
+const { verify } = require('../utils')
 const Post = require('../models/Post')
 
 // Create
@@ -13,11 +14,11 @@ router.post('/', async (req, res) => {
 })
 
 // Update
-router.put('/:id', async (req, res) => {
+router.put('/:id', verify, async (req, res) => {
   try {
     const post = await Post.findById(req.params.id)
 
-    if (post.username === req.body.username) {
+    if (post.username === req.user.username) {
       try {
         const updatedPost = await Post.findByIdAndUpdate(req.params.id, {
           $set: req.body
@@ -37,11 +38,11 @@ router.put('/:id', async (req, res) => {
 
 
 // Delete
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', verify, async (req, res) => {
   try {
     const post = await Post.findById(req.params.id)
 
-    if (post.username === req.body.username) {
+    if (post.username === req.user.username) {
       try {
         await post.delete()
 
