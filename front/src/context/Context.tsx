@@ -3,6 +3,7 @@ import { createContext, Dispatch, FC, useReducer } from 'react'
 import { Actions } from '../types/actionTypes'
 import UserType from '../types/user'
 import reducer from './Reducer'
+import jwt_decode from 'jwt-decode'
 
 
 export type InitialStateType = {
@@ -11,8 +12,22 @@ export type InitialStateType = {
   error: boolean
 }
 
+const localUser = localStorage.getItem('user')!
+let user = null
+
+if (localUser !== 'null') {
+  user = JSON.parse(localUser)
+  let currentDate = new Date()
+  const decodedToken: any = jwt_decode(user.accessToken)
+
+  if (decodedToken.exp * 1000 < currentDate.getTime()) {
+    console.log('Expired in context')
+    user = null
+  }
+}
+
 const initialState: InitialStateType = {
-  user: JSON.parse(localStorage.getItem('user')!),
+  user,
   isFetching: false,
   error: false
 }

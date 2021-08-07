@@ -50,6 +50,15 @@ const reducer = (state: InitialStateType, action: Actions) => {
         isFetching: false,
         error: true
       }
+    case ActionType.RefreshTokens:
+      return {
+        user: {
+          ...state.user,
+          ...action.payload
+        },
+        isFetching: false,
+        error: false
+      }
     default:
       return state
   }

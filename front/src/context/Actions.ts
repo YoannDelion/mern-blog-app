@@ -1,4 +1,4 @@
-import { ActionType, LoginFailureType, LoginStartType, LoginSuccessType, LogoutType, UpdateFailureType, UpdateStartType, UpdateSuccessType } from '../types/actionTypes'
+import { ActionType, LoginFailureType, LoginStartType, LoginSuccessType, LogoutType, RefreshTokensType, UpdateFailureType, UpdateStartType, UpdateSuccessType } from '../types/actionTypes'
 import UserType from '../types/user'
 
 export const LoginStart = (userCredentials: any): LoginStartType => ({
@@ -29,4 +29,10 @@ export const UpdateSuccess = (user: UserType): UpdateSuccessType => ({
 
 export const UpdateFailure = (): UpdateFailureType => ({
   type: ActionType.UpdateFailure
+})
+
+
+export const RefreshTokens = (tokens: { accessToken: string, refreshToken: string }): RefreshTokensType => ({
+  type: ActionType.RefreshTokens,
+  payload: tokens
 })

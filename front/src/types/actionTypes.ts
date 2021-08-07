@@ -8,6 +8,7 @@ export enum ActionType {
   UpdateStart,
   UpdateSuccess,
   UpdateFailure,
+  RefreshTokens
 }
 
 export type LoginStartType = {
@@ -34,5 +35,9 @@ export type UpdateSuccessType = {
 export type UpdateFailureType = {
   type: ActionType.UpdateFailure
 }
+export type RefreshTokensType = {
+  type: ActionType.RefreshTokens,
+  payload: any
+}
 
-export type Actions = LoginStartType | LoginSuccessType | LoginFailureType | LogoutType | UpdateStartType | UpdateSuccessType | UpdateFailureType
+export type Actions = LoginStartType | LoginSuccessType | LoginFailureType | LogoutType | UpdateStartType | UpdateSuccessType | UpdateFailureType | RefreshTokensType
