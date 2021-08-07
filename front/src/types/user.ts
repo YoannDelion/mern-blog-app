@@ -6,7 +6,9 @@ type UserType = {
   password?: string,
   profilePic?: string,
   createdAt?: string,
-  updatedAt?: string
+  updatedAt?: string,
+  accessToken?: string,
+  refreshToken?: string
 }
 
 export default UserType

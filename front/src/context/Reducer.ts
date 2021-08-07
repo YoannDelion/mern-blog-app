@@ -1,3 +1,4 @@
+import axios from 'axios'
 import { Actions, ActionType } from '../types/actionTypes'
 import { InitialStateType } from './Context'
 
@@ -10,6 +11,9 @@ const reducer = (state: InitialStateType, action: Actions) => {
         error: false
       }
     case ActionType.LoginSuccess:
+      const token = `Bearer ${action.payload.accessToken}`
+      axios.defaults.headers['Authorization'] = token
+
       return {
         user: action.payload,
         isFetching: false,
@@ -22,6 +26,8 @@ const reducer = (state: InitialStateType, action: Actions) => {
         error: true
       }
     case ActionType.Logout:
+      delete axios.defaults.headers['Authorization']
+
       return {
         user: null,
         isFetching: false,
