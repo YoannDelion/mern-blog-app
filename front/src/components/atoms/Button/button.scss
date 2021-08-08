@@ -1,0 +1,29 @@
+.button {
+  cursor: pointer;
+  background-color: lightcoral;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 10px;
+  text-align: center;
+
+  &:disabled {
+    cursor: not-allowed;
+  }
+}
+
+.primary {
+  background-color: lightcoral;
+
+  &:disabled {
+    background-color: lighten(lightcoral, 10%);
+  }
+}
+
+.secondary {
+  background-color: teal;
+
+  &:disabled {
+    background-color: lighten(teal, 10%);
+  }
+}
